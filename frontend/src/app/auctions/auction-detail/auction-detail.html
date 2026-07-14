@@ -1,0 +1,60 @@
+<section>
+  <p><a routerLink="/auctions">&larr; Volver al catálogo</a></p>
+
+  @if (loading()) {
+    <p>Cargando…</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (auction(); as a) {
+    <h2>{{ a.title }}</h2>
+    <p class="type">{{ a.cap === null ? 'Tipo A — cierra por tiempo' : 'Tipo B — cierra por tiempo o al alcanzar el tope' }}</p>
+
+    <dl>
+      <dt>Descripción</dt>
+      <dd>{{ a.description || '—' }}</dd>
+
+      <dt>Categoría</dt>
+      <dd>{{ a.category || '—' }}</dd>
+
+      <dt>Precio inicial</dt>
+      <dd>{{ formatCLP(a.startPrice) }}</dd>
+
+      <dt>Incremento mínimo</dt>
+      <dd>{{ formatCLP(a.minIncrement) }}</dd>
+
+      @if (a.cap !== null) {
+        <dt>Precio tope</dt>
+        <dd>{{ formatCLP(a.cap) }}</dd>
+      }
+
+      <dt>Cierra</dt>
+      <dd>{{ a.endsAt | date: 'medium' }}</dd>
+
+      <dt>Estado</dt>
+      <dd>{{ a.status }}</dd>
+
+      <dt>Precio actual</dt>
+      <dd>{{ formatCLP(currentPrice()) }}</dd>
+
+      <dt>Mejor postor</dt>
+      <dd>{{ a.highestBidderId ?? '— sin pujas todavía' }}</dd>
+    </dl>
+
+    <section class="bid-box">
+      <h3>Pujar</h3>
+      <p>Mínimo siguiente: <strong>{{ formatCLP(minNextBid()) }}</strong></p>
+      <form [formGroup]="form" (ngSubmit)="placeBid()">
+        <label>
+          Monto (CLP)
+          <input type="number" formControlName="amount" [min]="minNextBid()" />
+        </label>
+        <button type="submit" [disabled]="bidding()">
+          {{ bidding() ? 'Enviando…' : 'Pujar' }}
+        </button>
+      </form>
+      @if (bidError()) {
+        <p class="error">{{ bidError() }}</p>
+      }
+    </section>
+  }
+</section>

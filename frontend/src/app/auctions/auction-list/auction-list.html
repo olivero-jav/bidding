@@ -1,0 +1,23 @@
+<section>
+  <h2>Catálogo de subastas</h2>
+
+  @if (loading()) {
+    <p>Cargando…</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (auctions().length === 0) {
+    <p>No hay subastas todavía. <a routerLink="/auctions/new">Publicá la primera.</a></p>
+  } @else {
+    <ul class="auction-list">
+      @for (a of auctions(); track a.id) {
+        <li>
+          <a [routerLink]="['/auctions', a.id]">{{ a.title }}</a>
+          <span class="type">{{ a.cap === null ? 'Tipo A' : 'Tipo B' }}</span>
+          <span class="price">Precio inicial: {{ formatCLP(a.startPrice) }}</span>
+          <span class="category">{{ a.category }}</span>
+          <span class="ends">Cierra: {{ a.endsAt | date: 'short' }}</span>
+        </li>
+      }
+    </ul>
+  }
+</section>

@@ -1,0 +1,47 @@
+# === Go (backend) ===
+# Compiled binaries and test artifacts. The dev binary api.exe is built locally.
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+# coverage profiles / go test -c output
+*.out
+/backend/api.exe
+
+# Go workspace file (machine-specific)
+go.work
+go.work.sum
+
+# === Node / Angular (frontend) ===
+# frontend/.gitignore already covers these within frontend/; these are safety
+# nets in case commands run from the repo root.
+node_modules/
+dist/
+.angular/
+npm-debug.log*
+yarn-error.log*
+
+# === Env / secrets ===
+.env
+.env.*
+!.env.example
+
+# === Editors / OS ===
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# === Project docs / instructions (kept local, not versioned) ===
+/docs/
+/CLAUDE.md
+
+# === Claude tooling ===
+# .claude/skills/* are Windows directory junctions pointing to absolute local
+# paths — not portable, so keep them out of the repo. The real skill sources
+# live in .agents/skills/ and are committed. Local-only settings stay out too.
+.claude/skills/
+.claude/settings.local.json

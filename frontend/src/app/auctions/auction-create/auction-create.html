@@ -1,0 +1,49 @@
+<section>
+  <p><a routerLink="/auctions">&larr; Volver al catálogo</a></p>
+  <h2>Publicar subasta</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      Título
+      <input type="text" formControlName="title" />
+    </label>
+
+    <label>
+      Descripción
+      <textarea formControlName="description"></textarea>
+    </label>
+
+    <label>
+      Categoría
+      <input type="text" formControlName="category" placeholder="pokemon, magic, funko…" />
+    </label>
+
+    <label>
+      Precio inicial (CLP)
+      <input type="number" formControlName="startPrice" min="0" />
+    </label>
+
+    <label>
+      Incremento mínimo (CLP)
+      <input type="number" formControlName="minIncrement" min="1" />
+    </label>
+
+    <label>
+      Precio tope (CLP) — opcional, define una subasta Tipo B
+      <input type="number" formControlName="cap" min="1" placeholder="dejar vacío para Tipo A" />
+    </label>
+
+    <label>
+      Fecha de cierre
+      <input type="datetime-local" formControlName="endsAt" />
+    </label>
+
+    @if (serverError()) {
+      <p class="error">{{ serverError() }}</p>
+    }
+
+    <button type="submit" [disabled]="submitting()">
+      {{ submitting() ? 'Publicando…' : 'Publicar' }}
+    </button>
+  </form>
+</section>
